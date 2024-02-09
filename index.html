@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Changer!</title>
+    <link rel = 'stylesheet' href = './styles.css'></link>
+    <script type = 'text/javascript'>async function getColors(amount=2) {
+    const res = await fetch(`https://random-flat-colors.vercel.app/api/random?count=${amount}`)
+    const json = await res.json()
+    return json.colors
+}
+
+const changeColor = async () => {
+    const titleElement = document.querySelector('.title')
+    const buttonElement = document.querySelector('.color-changer')
+    const fourColors = await getColors(4)
+
+    
+    
+    document.body.style.backgroundColor = await fourColors[0]
+    titleElement.style.color = await fourColors[1]
+    buttonElement.style.backgroundColor = await fourColors[2]
+    buttonElement.style.color = await fourColors[3]
+    displayHex(fourColors)
+    return fourColors
+}
+
+const displayHex = (colorsList) => {
+    const colorContainer = document.querySelector('.color-container')
+    const colorOne = document.getElementById('color-one')
+    const colorTwo = document.getElementById('color-two')
+    const colorThree = document.getElementById('color-three')
+    const colorFour = document.getElementById('color-four')
+    
+    let i = 0
+    colors = [colorOne, colorTwo, colorThree, colorFour]
+    
+    colors.forEach(element => {
+        element.innerHTML = colorsList[i]
+        element.style.color = colorsList[i]
+        i++
+    })
+}
+
+document.addEventListener('DOMContentLoaded', changeColor())</script>
+<style>body {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f000;
+    transition: 0.3s ease;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.button-container {
+    margin-top: 20px;
+    transition: 0.3 ease;
+}
+
+.color-info {
+    display: inline-block;
+    font-size: 20px;
+    margin: 5px;
+    transition: none;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.color-container {
+    margin-top: auto;
+    transform: translate(-50%, -50%);
+    user-select: none;
+    text-align: center;
+    padding: 20px;
+    border: none; /* Remove border */
+    border-radius: 8px;
+    background-color: #ffffff; /* Set the background color to white */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.057); /* Update box shadow for a modern look */
+    cursor: move;
+    position: absolute;
+    left: 50%;
+    bottom: 0%
+}
+.color-container:hover {
+    background-color:whitesmoke;
+    transition: 0.3s ease;
+    cursor: grab;
+}
+
+.color-info span {
+    display: inline-block;
+    margin: 5px;
+}
+
+.color-changer {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4caf50; /* Green background color */
+    color: #ffffff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+
+.color-changer:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+.api-link {
+    color: black;
+    margin-left: auto;
+    padding: 1%;
+    font-family: 'Courier New', Courier, monospace;
+    text-decoration: none;
+    position: absolute;
+}
+.api-link:hover {
+    color:#ffffff;
+    transition: 0.3s ease
+}</stye>
+</head>
+<body>
+    <h1 class = 'title'>
+        Color Changer!
+    </h1>
+    <div class="button-container">
+        <button onclick="changeColor()" class = 'color-changer'>Click me</button>
+    </div>
+    <div  id = "color-container" class="color-container">
+        <span class = 'color-info' id="color-one">#</span>
+        <span class = 'color-info' id="color-two">#</span>
+        <span class = 'color-info' id="color-three">#</span>        
+        <span class = 'color-info' id="color-four">#</span>
+    </div>
+    <a class = 'api-link' id = 'api-link' target = '_self' href= 'https://random-flat-colors.vercel.app'>
+       API?   
+    <a>
+</body>
+
+</html>
